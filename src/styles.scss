@@ -1,4 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/**
+ * You can add global styles to this file,
+ * and also import other style files
+ */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import './assets/sass/general';
+
+.chat {
+    font-size: 0;
+}
+
+.chat > * {
+    font-size: initial;
+}
+
+.test, .test * {
+    outline: 1px solid red;
+    outline-offset: -1px;
+}
