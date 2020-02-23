@@ -21,22 +21,35 @@
 
     <mat-sidenav-content class="chat-window--content">
 
-        <div class="message-list">
+        <div #messageList class="message-list">
             
+            <!-- Estructura HTML del diseño de las imágenes: -->
+            <!--
             <div class="message-list__in">
                 <p data-sender="Por: Jakim Hernández" data-sentat="a las 13:45 pm">Este es el mensaje que te hago llegar amigo.</p>
             </div>
             <div class="message-list__me">
                 <p data-sender="Por: Jakim Hernández" data-sentat="a las 13:45 pm">Este es el mensaje que te hago llegar amigo.</p>
             </div>
+            <!---->
+            
+            <div *ngFor="let message of messages" [class]="'message-list__' + obj(message.sender).id">
+                <p [attr.data-sender]="obj(message.sender).username" [attr.data-sentat]="message.sentat">{{ message.message }}</p>
+            </div>
 
         </div>
-        <div class="message-text">
-            
-            <mat-form-field class="message-text__field">
-                <input matInput placeholder="Escribe tu mensaje." value=""/>
-            </mat-form-field>
 
+        <div class="message-text griditify">
+            <div class="row middle around center">
+                <div class="col-00">
+                    <input #input (keydown.enter)="sendMessage(input)" type="text" placeholder="Escribe tu mensaje." value=""/>
+                </div>
+                <div class="col-01">
+                    <button mat-icon-button (click)="sendMessage(input)" class="icon">
+                        <mat-icon aria-hidden="false" aria-label="Envíar mensaje ahora.">send</mat-icon>
+                    </button>
+                </div>
+            </div>
         </div>
 
     </mat-sidenav-content>

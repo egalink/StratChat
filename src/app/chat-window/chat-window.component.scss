@@ -99,9 +99,33 @@
 
     background-color: #adafb3;
     height: 64px;
+    line-height: 64px;
     padding: 4px 16px;
 
-    &__field {
+    .row {
         width: 100%;
+    }
+
+    .icon {
+        color: #8c8d91
+    }
+
+    div[class^="col-"] {
+
+        white-space: nowrap;
+        
+        &:last-child {
+            max-width: 85px;
+            width: 85px;
+        }
+    }
+
+    input[type="text"] {
+        background: none;
+        border: 0;
+        border-bottom: 2px solid #8c8d91;
+        padding: 10px 8px;
+        outline: none;
+        width: calc(100% - 16px);
     }
 }
