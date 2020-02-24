@@ -12,6 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
+// services:
+import { AdonisWebsocketClientApiService } from './services/websockets/adonis-websocket-client-api.service';
+
 import { AppComponent } from './app-component/app.component';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 
@@ -34,7 +37,7 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
 
-    providers: [],
+    providers: [AdonisWebsocketClientApiService],
 
     bootstrap: [AppComponent]
 
