@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@adonisjs/websocket-client": "^1.0.9",
     "@angular/animations": "~9.0.2",
     "@angular/cdk": "^9.0.1",
     "@angular/common": "~9.0.2",
