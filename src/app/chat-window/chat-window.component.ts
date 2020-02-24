@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { AdonisWebsocketClientApiService } from '../services/websockets/adonis-websocket-client-api.service';
 import * as moment from 'moment';
 
 @Component({
@@ -9,6 +10,8 @@ import * as moment from 'moment';
 export class ChatWindowComponent implements OnInit, AfterViewChecked  {
 
     @ViewChild('messageList') messageListRef:ElementRef;
+
+    wsClient:any;
 
     opened:boolean = false;
 
@@ -50,17 +53,42 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked  {
         }
     ];
 
-    constructor () {
+    constructor (
+        private clientApi: AdonisWebsocketClientApiService
+    ) {
         //
+        this.clientApi.connected(() => {
+            console.log(";) - The client now is connected to the ws service.");
+        });
+        
+        this.clientApi.disconnected(() => {
+            console.log(":´( - The client was disconnected from ws service!!");
+        });
+ 
+        this.wsClient = this.clientApi.connect();
     }
 
     ngOnInit () : void {
         //
+        this.subscribe();
     }
 
     ngAfterViewChecked () {
         //
         this.scrollToLastMessages();
+    }
+
+    subscribe () {
+        //
+        let chat:any = this.wsClient.subscribe('strat/chat');
+
+        chat.on('ready', () => {
+            chat.emit('message', 'Ya me encuentro conectado vía websockets al chat de stratplus.');
+        });
+
+        chat.on('error', error => {
+            console.log(error);
+        });
     }
 
     scrollToLastMessages () {
