@@ -39,7 +39,7 @@ export class AdonisWebsocketClientApiService {
      * 
      * @type any
      */
-    private ws:any;
+    private __ws:any;
 
     /**
      * to manage the application state, listen for the open/close events
@@ -81,6 +81,26 @@ export class AdonisWebsocketClientApiService {
             });
     }
 
+    connected (fn:any = null) {
+        //
+        this.wsOnConnected = fn;
+    }
+
+    disconnected (fn:any = null) {
+        //
+        this.wsOnDisconnected = fn;
+    }
+
+    get ws () {
+        //
+        return this.__ws;
+    }
+    
+    set ws (ws) {
+        //
+        this.__ws = ws;
+    }
+
     connect () {
         //
         this.ws
@@ -92,16 +112,6 @@ export class AdonisWebsocketClientApiService {
     status () {
         //
         return this.isConnected ? 'connected' : 'disconnected';
-    }
-
-    connected (fn:any = null) {
-        //
-        this.wsOnConnected = fn;
-    }
-
-    disconnected (fn:any = null) {
-        //
-        this.wsOnDisconnected = fn;
     }
 
     private onWsOpen () {

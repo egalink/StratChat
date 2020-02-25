@@ -39,6 +39,7 @@
     height: calc(100vh - 200px);
     overflow-y: auto;
 
+    &__bc,
     &__me,
     &__in {
 
@@ -96,6 +97,26 @@
         }
     }
 
+    &__bc {
+
+        margin: 0 -8px;
+        text-align: center;
+
+        p {
+            background-color: #4c4c4c;
+            color: #adb3ae;
+            display: block;
+            font-size: 16px;
+            margin: 0px auto 12px auto; 
+            padding: 8px;
+            text-align: inherit;
+
+            &:before,
+            &:after {
+                display: none;
+            }
+        }
+    }
 }
 
 .message-text {
