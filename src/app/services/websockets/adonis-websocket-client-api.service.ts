@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { API_CATALOG } from 'src/app/catalogs/api.catalog';
+
 /**
  * The module build requires the
  * regenerator-runtime polyfill (add it via Babel).
@@ -16,7 +18,7 @@ import { Injectable } from '@angular/core';
  */
 
 import "@babel/polyfill";
-import Ws from '@adonisjs/websocket-client'
+import Ws from '@adonisjs/websocket-client';
 
 @Injectable({
     providedIn: 'root'
@@ -28,7 +30,7 @@ export class AdonisWebsocketClientApiService {
      * 
      * @type string
      */
-    private url:string = 'ws://127.0.0.1:3333';
+    private url:string = API_CATALOG.wsEndpoint;
 
     /**
      * Connect to a WebSocket server via the client like so:

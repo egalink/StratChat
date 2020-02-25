@@ -16,6 +16,8 @@ import { environment } from '../environments/environment';
 // services:
 import { AdonisWebsocketClientApiService } from './services/websockets/adonis-websocket-client-api.service';
 import { SignupService } from './services/http/signup.service';
+import { UsersService } from './services/http/users.service';
+import { MessagesService } from './services/http/messages.service';
 import { StorageService } from './services/persistance/storage.service';
 
 import { AppComponent } from './components/app-component/app.component';
@@ -44,7 +46,9 @@ import { ChatWindowComponent } from './components/chat-window/chat-window.compon
     providers: [
         AdonisWebsocketClientApiService,
         SignupService,
-        StorageService
+        StorageService,
+        UsersService,
+        MessagesService
     ],
 
     bootstrap: [AppComponent]

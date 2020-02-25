@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@ang
 import { AdonisWebsocketClientApiService } from '../../services/websockets/adonis-websocket-client-api.service';
 import * as moment from 'moment';
 import { SignupService } from 'src/app/services/http/signup.service';
+import { MessagesService } from 'src/app/services/http/messages.service';
+import { UsersService } from 'src/app/services/http/users.service';
 
 @Component({
     selector: 'app-chat-window',
@@ -12,32 +14,41 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked  {
 
     @ViewChild('messageList') messageListRef:ElementRef;
     @ViewChild('input') inputRef:ElementRef;
+    
+    userList:any = [];
+    userdata:any = {};
 
     wsClient:any;
     wsTpChat:any;
-
-    opened:boolean = false;
+    
+    opened:boolean = true;
 
     messages:any[] = [/*
+        
         {
-            message: 'y tu?',
-            sender: { username: 'Mafer Mad.', id: 'in' },
-            sentat: '22-02-2020T18:02:18',
-        },
-        {
-            message: 'El usuario Jakim Hernández se ha conectado.',
+            message: 'El usuario Jakim Hernández se ha unido al chat.',
             sender: { username: null, id: 'bc' },
-            sentat: '22-02-2020T18:03:15',
-        },
-        {
-            message: 'Hay algo en lo que te pueda ayudar? ...',
-            sender: { username: 'Egalink Hdz.', id: 'me' },
-            sentat: '22-02-2020T18:03:22',
+            sentat: '22-02-2020 18:01:58',
+        }, {
+            message: 'Hola!',
+            sender: { username: 'Jakim Hernández', id: 'me' },
+            sentat: '22-02-2020 18:02:18',
+        }, {
+            message: 'Soy Goku!',
+            sender: { username: 'Jakim Hernández', id: 'me' },
+            sentat: '22-02-2020 18:02:22',
+        }, {
+            message: 'jajaja do babes ...',
+            sender: { username: 'Otro usuario', id: 'in' },
+            sentat: '22-02-2020 18:03:22',
         }
+
     //*/];
 
     constructor (
         private signup: SignupService,
+        private message: MessagesService,
+        private user: UsersService,
         private clientApi: AdonisWebsocketClientApiService
     ) {
         this.clientApi.connected(() => {
@@ -52,15 +63,18 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked  {
 
     async ngOnInit () {
 
-        const userdata:any = await this.signup.request();
+        this.userdata = await this.signup.request();
 		console.log("Estos son los datos del usuario registrado:");
-		console.log(userdata);
+		console.log(this.userdata);
 
         this.wsClient = this
             .clientApi
             .ws
-            .withApiToken(userdata.token)
+            .withApiToken(this.userdata.token)
             .connect();
+
+        this.downloadMessageList();
+        this.downloadUserList();
     }
 
     ngAfterViewChecked () {
@@ -109,11 +123,37 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked  {
 
     append (data:any = {}) {
         //
-        console.log(data)
+        if (data.sender.id > 0) {
+            data.sender.id = data.sender.id == this.userdata.id ? 'me' : 'in';
+        } else {
+            this.downloadUserList();
+            data.sender.id = 'bc';
+        }
+
         this.messages.push(data);
-        this.inputRef.nativeElement.value = '';
         this.scrollToLastMessages();
+        this.inputRef
+            .nativeElement
+            .value = '';
     } 
+
+    downloadMessageList () {
+        //
+        this.message.all().then((list:any) => {
+            if (list.length > 0) {
+                list.forEach(message => this.append(message));
+            }
+        }, console.error);
+    }
+
+    downloadUserList () {
+        //
+        this.user.all().then((list:any) => {
+            if (list.length > 0) {
+                this.userList = list;
+            }
+        }, console.error);
+    }
 
     get utc () {
         //

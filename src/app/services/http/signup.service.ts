@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from '../persistance/storage.service';
+import { API_CATALOG } from 'src/app/catalogs/api.catalog';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignupService {
 
-    api:string = "http://127.0.0.1:3333/api";
+    api:string = API_CATALOG.httpEndpoint;
     key:string = 'session';
 
     constructor (

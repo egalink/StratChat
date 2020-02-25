@@ -16,7 +16,12 @@
 <mat-sidenav-container autosize class="chat-window">
     
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="chat-window--sidebar">
-        <p>Sidebar content...</p>
+        <div class="user-list">
+            <h2>Lista de Usuarios:</h2>
+            <ul>
+                <li *ngFor="let user of userList">{{ user.username }}</li>
+            </ul>
+        </div>
     </mat-sidenav>
 
     <mat-sidenav-content class="chat-window--content">
